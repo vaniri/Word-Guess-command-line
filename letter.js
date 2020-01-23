@@ -1,6 +1,6 @@
 class Letter {
     constructor (letter) {
-        this.character = letter,
+        this.character = letter;
         this.rightGuess = false;
     }
 
@@ -11,9 +11,13 @@ class Letter {
     }
 
     checkLetter (input) {
-        if (this.letter === input) {
+        if (this.character === input) {
             this.rightGuess = true;
         }
+    }
+
+    isGuess () {
+        return this.rightGuess;
     }
 }
 
