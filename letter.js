@@ -13,7 +13,8 @@ class Letter {
     checkLetter (input) {
         if (this.character === input) {
             this.rightGuess = true;
-        }
+            return true;
+        } else { return false; }
     }
 
     isGuess () {

@@ -1,27 +1,29 @@
-const Letter = require("./letter.js")
+const Letter = require("./letter.js");
 
 class Word {
-    constructor(word) {
-        this.letters = word.split("").map(letter => new Letter(letter));
-    }
+  constructor(word) {
+    this.letters = word.split("").map(letter => new Letter(letter));
+  }
 
-    getWord() {
-        let word = this.letters.join(" ");
-        return word;
-    }
+  getWord() {
+    let word = this.letters.join(" ");
+    return word;
+  }
 
-    guessWord(char) {
-        this.letters.forEach(letter => {
-            letter.checkLetter(char);
-        });
-    }
+  guessWord(char) {
+      let trackGuess = false;
+    this.letters.forEach(letter => {
+      if (letter.checkLetter(char)) { trackGuess = true; }
+    });
+    return trackGuess;
+  }
 
-    isGuessed() {
-        for (let letter of this.letters) {
-            if (!letter.isGuess()) { return false; }
-        }
-        return true;
-    }
+  isGuessed() {
+    for (let letter of this.letters) {
+      if (!letter.isGuess()) { return false; } 
+    } 
+    return true;
+  }
 }
 
 module.exports = Word;
