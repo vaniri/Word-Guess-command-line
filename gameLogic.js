@@ -3,7 +3,8 @@ const Word = require("./word.js");
 const randomWord = require("./wordSource.js");
 
 let attempts = null;
-resetAttempts();
+let word = "";
+resetGameState();
 
 const cyan = '\033[0;36m';
 const violet = '\033[0;34m';
@@ -31,24 +32,23 @@ function runInquirer() {
 
 runInquirer();
 
-let word = new Word(randomWord.getRandomWord());
-console.log(word);
-
 function handleGuess(letter) {
     if (word.guessWord(letter)) {
         console.log(cyan + "CORRECT!", resetColor);
     } else {
         console.log(cyan + "INCORRECT!", resetColor);
+        attempts--;
     }
 
     console.log(word.getWord());
 
     if (word.isGuessed()) {
-        logResalt("YOU GET IT!");
+        logResult("YOU GET IT!");
         newRound();
+        return;
     }
-    if (--attempts === 0) {
-        logResalt("GAME OVER!");
+    if (attempts === 0) {
+        logResult("GAME OVER!");
         newRound();
     } else {
         console.log("remaningGuess: " + violet + attempts);
@@ -68,19 +68,21 @@ function newRound() {
         ])
         .then(answer => {
             if (answer.answer.toLowerCase() === "y") {
-                resetAttempts();
+                resetGameState();
                 runInquirer();
             } else { return; }
         });
 }
 
-function resetAttempts() {
+function resetGameState() {
+    word = new Word(randomWord.getRandomWord());
+    console.log(word);
     attempts = 20;
 }
 
-function logResalt(resalt) {
+function logResult(result) {
     console.log("");
     console.log(purple + "-----------" + resetColor);
-    console.log(resalt);
+    console.log(result);
     console.log(purple + "-----------" + resetColor);
 }
