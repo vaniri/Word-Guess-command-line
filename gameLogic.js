@@ -9,7 +9,7 @@ resetGameState();
 const guessFeedbackColor = '\033[0;36m';
 const attemptsColor = '\033[0;34m';
 const startGame = '\033[0;34m';
-const purple = '\033[0;35m';
+const gameResultColor = '\033[0;35m';
 const inputErrorColor = '\033[0;31m';
 const resetColor = '\033[0m';
 
@@ -86,8 +86,8 @@ function resetGameState() {
 
 function logResult(result) {
     console.log("");
-    console.log(purple + "-----------" + resetColor);
+    console.log(gameResultColor + "-----------" + resetColor);
     console.log(result);
-    console.log(purple + "-----------" + resetColor);
+    console.log(gameResultColor + "-----------" + resetColor);
 }
 
