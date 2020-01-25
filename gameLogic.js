@@ -6,9 +6,11 @@ let attempts = null;
 let word = "";
 resetGameState();
 
-const cyan = '\033[0;36m';
-const violet = '\033[0;34m';
+const guessFeedbackColor = '\033[0;36m';
+const attemptsColor = '\033[0;34m';
+const startGame = '\033[0;34m';
 const purple = '\033[0;35m';
+const inputErrorColor = '\033[0;31m';
 const resetColor = '\033[0m';
 
 function runInquirer() {
@@ -17,16 +19,19 @@ function runInquirer() {
             {
                 type: "input",
                 name: "letters",
-                message: "Guess a letter!"
+                message: "Guess a letter!",
+                validate: input => {
+                    input = input.toLowerCase();
+                    if (!(input >= 'a' && input <= 'z')) {
+                        console.log(`${inputErrorColor} \nYou should enter a letter ${resetColor}`);
+                        return false;
+                    }
+                    return true;
+                }
             }
         ])
         .then(letter => {
-            if (letter.letters === "") {
-                console.log("Please enter a letter!");
-                runInquirer();
-            } else {
-                handleGuess(letter.letters);
-            }
+            handleGuess(letter.letters);
         });
 }
 
@@ -34,9 +39,9 @@ runInquirer();
 
 function handleGuess(letter) {
     if (word.guessWord(letter)) {
-        console.log(cyan + "CORRECT!", resetColor);
+        console.log(`${guessFeedbackColor} CORRECT! ${resetColor}`);
     } else {
-        console.log(cyan + "INCORRECT!", resetColor);
+        console.log(`${guessFeedbackColor} INCORRECT! ${resetColor}`);
         attempts--;
     }
 
@@ -51,7 +56,7 @@ function handleGuess(letter) {
         logResult("GAME OVER!");
         newRound();
     } else {
-        console.log("remaningGuess: " + violet + attempts);
+        console.log(`remaningGuess: ${attemptsColor} ${attempts}`);
         console.log("");
         runInquirer();
     }
@@ -63,7 +68,7 @@ function newRound() {
             {
                 type: "input",
                 name: "answer",
-                message: `Another round? ${violet} (y/n) ${resetColor}`
+                message: `Another round? ${startGame} (y/n) ${resetColor}`
             }
         ])
         .then(answer => {
@@ -76,8 +81,7 @@ function newRound() {
 
 function resetGameState() {
     word = new Word(randomWord.getRandomWord());
-    console.log(word);
-    attempts = 20;
+    attempts = 5;
 }
 
 function logResult(result) {
@@ -86,3 +90,4 @@ function logResult(result) {
     console.log(result);
     console.log(purple + "-----------" + resetColor);
 }
+
