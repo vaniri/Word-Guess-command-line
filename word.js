@@ -11,17 +11,21 @@ class Word {
   }
 
   guessWord(char) {
-      let trackGuess = false;
+    let trackGuess = false;
     this.letters.forEach(letter => {
-      if (letter.checkLetter(char)) { trackGuess = true; }
+      if (letter.checkLetter(char)) {
+        trackGuess = true;
+      }
     });
     return trackGuess;
   }
 
   isGuessed() {
     for (let letter of this.letters) {
-      if (!letter.isGuess()) { return false; } 
-    } 
+      if (!letter.isGuess()) {
+        return false;
+      }
+    }
     return true;
   }
 }
